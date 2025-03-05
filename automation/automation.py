@@ -16,22 +16,26 @@ class Automation(ABC):
         
     @abstractmethod
     def login(self, page: object) -> None:
-        """Login to the system"""
+        """Método para realizar o login no sistema"""
         try:
             self.toolbox.fill(page, LoginFields.FIELD_LOGIN_USER, self.username)
             self.toolbox.fill(page, LoginFields.FIELD_LOGIN_PASSWORD, self.password)
             self.toolbox.click(page, LoginFields.BUTTON_LOGIN)
-            self.toolbox.click(page, LoginFields.BUTTON_CLOSE_POPUP, is_required=False)
-            self.logger.info("Login successful")
+            try:
+                self.toolbox.click(page, LoginFields.BUTTON_CLOSE_POPUP, is_required=False, timeout=5000)
+            except Exception as ex:
+                self.logger.info('Popup de confimação não encontrado')
+                 
+            self.logger.info("Login realizado com sucesso")
         except Exception as e:
-            self.logger.error(f"Error while trying to login: {e}")
+            self.logger.error(f"Erro ao tentar realizar o login: {e}")
             raise e
         finally:
-            self.logger.info("Login process finished")
+            self.logger.info("Login finalizado")
 
     @abstractmethod
     def select_branch(self, page: object, branch: str) -> None:
-        """Select a branch to the system"""
+        """Método para selecionar a filial"""
         try:
             self.toolbox.wait_for_load_state(page, 'networkidle')
             self.toolbox.click(page, HomeFields.BUTTON_SWITCH_BRANCH)
@@ -39,23 +43,24 @@ class Automation(ABC):
             iframe = self.toolbox.obtain_frame(page, HomeFields.IFRAME_BRANCH)
             self.toolbox.frame_locator(iframe, HomeFields.DROPDOWN_BRANCH, branch)
             self.toolbox.frame_click(iframe, HomeFields.BUTTON_CONFIRM_BRANCH)
+            self.logger.info("Filial selecionada com sucesso")
         except Exception as e:
-            self.logger.error(f"Error while trying select to branch: {e}")
+            self.logger.error(f"Erro ao tentar selecionar a filial: {e}")
             raise e
         finally:
-            self.logger.info("Select Branch finished")
+            self.logger.info("Seleção de filial finalizada")
 
     @abstractmethod
     def close(self, browser: object) -> None:
-        """Close the browser"""
+        """Método para fechar o navegador"""
         try:
             browser.close()
-            self.logger.info("Browser closed")
+            self.logger.info("Navegador fechado com sucesso")
         except Exception as e:
-            self.logger.error(f"Error while trying to close the browser: {e}")
+            self.logger.error(f"Erro ao tentar fechar o navegador: {e}")
             raise e
         finally:
-            self.logger.info("Close process finished")
+            self.logger.info("Fechamento do navegador finalizado")
 
     @abstractmethod
     def execute(self) -> None:
