@@ -18,12 +18,8 @@ class BrowserAutomationThread(threading.Thread):
 
 def connect_to_database():
     db = DatabaseConnection(
-        db_type=config("DB_TYPE_DEVELOPMENT"),
-        db_name=config("DB_NAME_DEVELOPMENT"),
-        user=config("DB_USER_DEVELOPMENT"),
-        password=config("DB_PASSWORD_DEVELOPMENT"),
-        host=config("DB_HOST_DEVELOPMENT"),
-        port=config("DB_PORT_DEVELOPMENT")
+        db_type='sqlite',
+        db_name='db.sqlite3',
     )
 
     db.connect()
@@ -38,15 +34,61 @@ def start_browser_automation():
 
     db = connect_to_database()
 
-    invoices = db.execute_query('''SELECT data_emissao as EMISSAO, nome_fornecedor AS FORNECEDOR, chave AS CHAVE
-                                FROM tb_notas_produtos 
-                                WHERE id_status_nota_produto = %s''', (4,))
+    invoices = db.execute_query('''SELECT data_emissao as EMISSAO, numero_nota AS NUMERO, chave_acesso AS CHAVE
+                                FROM tb_notas_fiscais''')
+    
+    print(invoices)
     
     automation = ProductNotesAutomation(
         url=config("URL"),
         username="SUPERVISOR",
         password=config("PASSWORD"),
-        data=[{'chave': invoices[0][2],'filial': '1'}]
+        data=[
+            {
+                'chave': '35241255962369000924550840002911321000650030',
+                'filial': '1', 
+                'filial_name': 'PALMAS', 
+                'operacao': '1', 
+                'conferente': 'EUROBO', 
+                'vendedor': '83', 
+                'centro': '1', 
+                'politica': '9999'
+            },
+
+            {
+                'chave': '17241101581193000265550010001321901809799238',
+                'filial': '2', 
+                'filial_name': 'GURUPI', 
+                'operacao': '1', 
+                'conferente': 'EUROBO', 
+                'vendedor': '83', 
+                'centro': '1', 
+                'politica': '9999'
+            },
+
+            {
+                'chave': '35241255962369000924550840002927151000650037',
+                'filial': '2', 
+                'filial_name': 'GURUPI', 
+                'operacao': '1', 
+                'conferente': 'EUROBO', 
+                'vendedor': '83', 
+                'centro': '1', 
+                'politica': '9999'
+            },
+
+            {
+                'chave': '35241255962369000924550840002897901000650030',
+                'filial': '2', 
+                'filial_name': 'GURUPI', 
+                'operacao': '1', 
+                'conferente': 'EUROBO', 
+                'vendedor': '83', 
+                'centro': '1', 
+                'politica': '9999'
+            },
+            
+            ]
     )
         
     start_thread(automation)
