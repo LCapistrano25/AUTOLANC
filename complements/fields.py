@@ -16,7 +16,24 @@ class HomeFields:
 class HomeMenuFields:
     MODULES = "#MPW0100GdmenumodulosContainerTbl"
     MODULE_FISCAL = "#MPW0100GRID1TABLE_0008"
+    MODULE_STOCK = "#MPW0100GRID1TABLE_0006"
 
+class StockFields:
+    SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[4]"
+    OPTION_PRODUCT_STOCK = "//*[@id='cssmenu']/ul/li[4]/ul/li[1]/a"
+    OPTION_REGISTER_STOCK = "//*[@id='cssmenu']/ul/li[4]/ul/li[1]/ul/li[1]/a"
+    BUTTON_CLEAN = "#CLEANFILTERS"
+    FIELD_PRODUCT = "#vE18CODPRO"
+    BUTTON_SEARCH = "#IMGPESQUISA"
+    BUTTON_EDIT = "#vEDITAR_0001"
+
+class ProductFields:
+    TAB_TAX ="#Tab_GXUITABSPANEL_TABSPRODUTOContainerpanel4"
+    DROPDOWN_ORIGIN = "#E18CST1"
+    BUTTON_SAVE = "#BTNTRN_ENTER"
+    ROTINE = "1068"
+    TITLE_PRODUCT = "#TXTITULO"
+    
 class FiscalFields:
     SIDEBAR_FISCAL = "//*[@id='cssmenu']/ul/li[9]/a"
     OPTION_INVOICE = "//*[@id='cssmenu']/ul/li[9]/ul/li[1]/a"
@@ -30,6 +47,24 @@ class FiscalFields:
     BUTTON_VIEW = "#vVISUALIZARNFE_0001"
     TITLE_FISCAL = "#TXTITULO"
     ROTINE = "2988"
+    TEXT_SITUATION_MANIFESTED = "#span_E161MDSITUACAO_0001"
+    TEXT_DOCUMENT_TYPE = "#span_E161DOCUMENTOTIPO_0001"
+    TEXT_SITUATION = "#span_E161NFESITUACAO_0001"
+    CHECKBOX_SELECT_INVOICE = "#vSELECTED_0001"
+    BUTTON_MANIFEST = "#BTNMANIFESTAR"
+    OPTION_CONFIRM_OPERATION = "input#vE62MD_TPEVENTO3"
+    BUTTON_MANIFEST_CONFIRM = "#BTNENTER"
+    IFRAME_CONFIRM_OPERATION = "#gxp0_ifrm"
+
+class ManualSelectionPopupFields:
+    POPUP_CONFIRM_OPERATION = "#W0208TABLECAMPOS"
+    BUTTON_UPDATE_SITUATION = "#W0208vUPDATERATEIO_0001"
+    BUTTON_CONFIRM_SITUATION = "#W0208BTNENTER"
+
+class SelectEventPopupFields:
+    POPUP_CONFIRM_EVENT = "#W0208W0064TABLECAMPOS"
+    DROPDOWN_SITUATION = "#W0208W0064vE161MDSITUACAO"
+    BUTTON_CONFIRM_EVENT = "#W0208W0064BTNENTER"
 
 class ImportXMLFields:
     TITLE_IMPORT_XML = "#TXTITULO"
@@ -58,4 +93,11 @@ FILTERS_SITUATION = {
     "situation_manifested": "Todos",
     "document_type": "Nota Fiscal",
     "situation": "Uso Autorizado no Momento da Consulta",
+}
+
+SITUATION_APPROVED = {
+    "situation_manifested_approved": "Confirmada Operação",
+    "situation_manifested_not_approved": ["Sem Manifestação do Destinatário", "Ciência"],
+    "situation_approved": "Uso Autorizado no Momento da Consulta",
+    "document_type_approved": "Nota Fiscal"
 }

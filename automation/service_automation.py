@@ -1,7 +1,5 @@
-import time
 from playwright import sync_playwright
 from automation.automation import Automation
-from complements.fields import HomeFields, HomeMenuFields
 
 class ServiceNotesAutomation(Automation):
     def __init__(self, url, username, password, toolbox=None):

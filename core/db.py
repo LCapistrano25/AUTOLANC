@@ -54,6 +54,7 @@ class DatabaseConnection:
                 return "Query executada com sucesso!"
         except Exception as e:
             print(f"Erro ao executar a query: {e}")
+            return None
 
     def close(self):
         """Fecha a conexão com o banco de dados."""

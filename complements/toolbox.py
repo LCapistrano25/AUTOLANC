@@ -1,4 +1,5 @@
 class Toolbox:
+    
     @staticmethod
     def fill(page: object, selector: str, text: str):
         page.wait_for_selector(selector, state='visible')
@@ -51,6 +52,26 @@ class Toolbox:
     @staticmethod
     def frame_click(iframe: object, selector: str):
         iframe.locator(selector).click()
+    
+    @staticmethod
+    def frame_check(iframe: object, selector: str, force: bool = False):
+        iframe.locator(selector).check(force=force)
+
+    @staticmethod
+    def check(page: object, selector: str):
+        page.check(selector)
+
+    @staticmethod
+    def uncheck(page: object, selector: str):
+        page.uncheck(selector)
+
+    @staticmethod
+    def is_checked(page: object, selector: str):
+        return page.locator(selector).is_checked()
+    
+    @staticmethod
+    def screenshot(page: object, path: str):
+        page.screenshot(path=path, full_page=True)
 
     
 

@@ -1,14 +1,20 @@
 import os
 import sys
 import threading
+import time
 from decouple import config
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from automation.product_automation import ProductNotesAutomation
-from core.db import DatabaseConnection
+from automation.factory_automation import AutomationFactory
+from core.utils import (
+    connect_to_database_fourmaqconnect, 
+    process_invoices, 
+    process_parameters
+)
 
 class BrowserAutomationThread(threading.Thread):
+    """Thread para execução de automação de notas fiscais."""
     def __init__(self, automation):
         super().__init__()
         self.automation = automation
@@ -16,83 +22,41 @@ class BrowserAutomationThread(threading.Thread):
     def run(self):
         self.automation.execute()
 
-def connect_to_database():
-    db = DatabaseConnection(
-        db_type='sqlite',
-        db_name='db.sqlite3',
-    )
-
-    db.connect()
-    return db
-
-def start_thread(automation):
-    automation_thread = BrowserAutomationThread(automation)
-    automation_thread.start()
-    automation_thread.join()
-
 def start_browser_automation():
+    """Inicia a automação de notas fiscais."""
+    db = connect_to_database_fourmaqconnect()
+    parameters = process_parameters(db)  
+    data = process_invoices(db, parameters['nao_lancado'], config("LIMIT"))
 
-    db = connect_to_database()
-
-    invoices = db.execute_query('''SELECT data_emissao as EMISSAO, numero_nota AS NUMERO, chave_acesso AS CHAVE
-                                FROM tb_notas_fiscais''')
+    if not data:
+        print("Nenhuma nota fiscal encontrada.")
+        return
     
-    print(invoices)
-    
-    automation = ProductNotesAutomation(
-        url=config("URL"),
-        username="SUPERVISOR",
-        password=config("PASSWORD"),
-        data=[
-            {
-                'chave': '35241255962369000924550840002911321000650030',
-                'filial': '1', 
-                'filial_name': 'PALMAS', 
-                'operacao': '1', 
-                'conferente': 'EUROBO', 
-                'vendedor': '83', 
-                'centro': '1', 
-                'politica': '9999'
-            },
+    threads = []
 
-            {
-                'chave': '17241101581193000265550010001321901809799238',
-                'filial': '2', 
-                'filial_name': 'GURUPI', 
-                'operacao': '1', 
-                'conferente': 'EUROBO', 
-                'vendedor': '83', 
-                'centro': '1', 
-                'politica': '9999'
-            },
+    for invoice in data:
+        try:
+            automation=AutomationFactory.create_automation(
+                "product_notes",
+                url=config("URL"),
+                username=config("USERNAMES"),
+                password=config("PASSWORD"),
+                data=[invoice],
+                dir_logs=config("DIR_LOGS"),
+                db=db,
+                parameters=parameters
+            )
 
-            {
-                'chave': '35241255962369000924550840002927151000650037',
-                'filial': '2', 
-                'filial_name': 'GURUPI', 
-                'operacao': '1', 
-                'conferente': 'EUROBO', 
-                'vendedor': '83', 
-                'centro': '1', 
-                'politica': '9999'
-            },
+            thread = BrowserAutomationThread(automation)
+            threads.append(thread)
+            thread.start()
+        except Exception as e:
+            print(f"Erro ao iniciar automação para a nota {invoice['chave']}: {e}")
 
-            {
-                'chave': '35241255962369000924550840002897901000650030',
-                'filial': '2', 
-                'filial_name': 'GURUPI', 
-                'operacao': '1', 
-                'conferente': 'EUROBO', 
-                'vendedor': '83', 
-                'centro': '1', 
-                'politica': '9999'
-            },
-            
-            ]
-    )
-        
-    start_thread(automation)
-
+    for thread in threads:
+        thread.join()
 
 if __name__ == "__main__":
-    start_browser_automation()
+    while True:
+        start_browser_automation()
+        time.sleep(30)
