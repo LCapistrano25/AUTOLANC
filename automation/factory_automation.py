@@ -1,4 +1,3 @@
-
 from automation.product_automation import ProductNotesAutomation
 from automation.service_automation import ServiceNotesAutomation
 

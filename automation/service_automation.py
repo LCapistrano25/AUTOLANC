@@ -1,4 +1,4 @@
-from playwright import sync_playwright
+from playwright.sync_api import sync_playwright
 from automation.automation import Automation
 
 class ServiceNotesAutomation(Automation):

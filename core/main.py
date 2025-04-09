@@ -36,6 +36,7 @@ def start_browser_automation():
 
     for invoice in data:
         try:
+            print(invoice['produtos'])
             automation=AutomationFactory.create_automation(
                 "product_notes",
                 url=config("URL"),

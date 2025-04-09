@@ -72,9 +72,3 @@ class Toolbox:
     @staticmethod
     def screenshot(page: object, path: str):
         page.screenshot(path=path, full_page=True)
-
-    
-
-    
-    
-    

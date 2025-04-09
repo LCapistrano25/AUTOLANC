@@ -43,9 +43,9 @@ class UpdateProduct:
             toolbox.wait_for_load_state(page, 'networkidle')
             toolbox.wait_for_timeout(page, 2000)
             toolbox.click(page, StockFields.SIDEBAR_STOCK)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1000)
             toolbox.click(page, StockFields.OPTION_PRODUCT_STOCK)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1000)
             toolbox.click(page, StockFields.OPTION_REGISTER_STOCK)
             return True
         except Exception as e:
@@ -58,13 +58,13 @@ class UpdateProduct:
         try:
             logger.info("Buscando o produto...")
             toolbox.wait_for_load_state(page, 'networkidle')
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1500)
             toolbox.click(page, StockFields.BUTTON_CLEAN)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 500)
             toolbox.fill(page, StockFields.FIELD_PRODUCT, code_product)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1000)
             toolbox.click(page, StockFields.BUTTON_SEARCH)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1500)
             toolbox.click(page, StockFields.BUTTON_EDIT)
             return True
         except Exception as e:
@@ -77,11 +77,11 @@ class UpdateProduct:
         try:
             logger.info("Atualizando o produto...")
             toolbox.wait_for_load_state(page, 'networkidle')
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 1500)
             toolbox.click(page, ProductFields.TAB_TAX)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 500)
             toolbox.select_option(page, ProductFields.DROPDOWN_ORIGIN, origin)
-            toolbox.wait_for_timeout(page, 2000)
+            toolbox.wait_for_timeout(page, 500)
             toolbox.click(page, ProductFields.BUTTON_SAVE)
             return True
         except Exception as e:

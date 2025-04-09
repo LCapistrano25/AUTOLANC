@@ -3,7 +3,7 @@ import psycopg2
 import mysql.connector
 
 class DatabaseConnection:
-    def __init__(self, db_type, db_name, user=None, password=None, host="localhost", port=None):
+    def __init__(self, db_type: str, db_name: str, user: str=None, password: str=None, host: str="localhost", port: str=None):
         self.db_type = db_type.lower()
         self.db_name = db_name
         self.user = user
@@ -13,7 +13,7 @@ class DatabaseConnection:
         self.conn = None
         self.cursor = None
 
-    def connect(self):
+    def connect(self) -> None:
         """Estabelece conexão com o banco de dados."""
         try:
             if self.db_type == "sqlite":
@@ -43,7 +43,7 @@ class DatabaseConnection:
         except Exception as e:
             print(f"Erro ao conectar ao banco: {e}")
 
-    def execute_query(self, query, params=None):
+    def execute_query(self, query, params=None) -> any:
         """Executa uma consulta SQL e retorna os resultados, se houver."""
         try:
             self.cursor.execute(query, params or ())
@@ -56,7 +56,7 @@ class DatabaseConnection:
             print(f"Erro ao executar a query: {e}")
             return None
 
-    def close(self):
+    def close(self) -> None:
         """Fecha a conexão com o banco de dados."""
         if self.cursor:
             self.cursor.close()
