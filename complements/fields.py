@@ -18,7 +18,7 @@ class HomeMenuFields:
     MODULE_FISCAL = "#MPW0100GRID1TABLE_0008"
     MODULE_STOCK = "#MPW0100GRID1TABLE_0006"
 
-class StockFields:
+class StockRegisterFields:
     SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[4]"
     OPTION_PRODUCT_STOCK = "//*[@id='cssmenu']/ul/li[4]/ul/li[1]/a"
     OPTION_REGISTER_STOCK = "//*[@id='cssmenu']/ul/li[4]/ul/li[1]/ul/li[1]/a"
@@ -26,6 +26,20 @@ class StockFields:
     FIELD_PRODUCT = "#vE18CODPRO"
     BUTTON_SEARCH = "#IMGPESQUISA"
     BUTTON_EDIT = "#vEDITAR_0001"
+
+class StockInvoiceFields:
+    SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[3]/a"
+    OPTION_IMPORT_INVOICE_BRANCH = "//*[@id='cssmenu']/ul/li[3]/ul/li[3]/a"
+    DROPDOWN_ORIGIN = "//*[@id='W0021vE35FILIAL']"
+    DROPDOWN_DESTINATION = "//*[@id='W0021vE62FILDEST']"
+    BUTTON_SEARCH = "//*[@id='W0021IMGPESQUISA']"
+    OPTION_INVOICE = "//*[@id='W0021GridContainerRow_0001']"
+    BUTTON_NEXT = "//*[@id='W0021BTNWIZARDNEXT']"
+    BUTTON_IMPORT = "//*[@id='W0021BTNWIZARDLASTNEXT']"
+    BUTTON_FINISH = "//*[@id='W0021BTNFINALIZAR']"
+    FIELD_INVOICE = "//*[@id='W0021vE62NUMERO']"
+    ROTINE = '1133'
+    TITLE_IMPORT_INVOICE = "#TXTITULO"
 
 class ProductFields:
     TAB_TAX ="#Tab_GXUITABSPANEL_TABSPRODUTOContainerpanel4"

@@ -6,11 +6,13 @@ from decouple import config
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from automation.factory_automation import AutomationFactory
+from automation.factory import AutomationFactory
 from core.utils import (
+    FactoryDatabaseConnection,
     connect_to_database_fourmaqconnect, 
     process_invoices, 
-    process_parameters
+    process_parameters,
+    TYPE_LAUNCH
 )
 
 class BrowserAutomationThread(threading.Thread):
@@ -36,9 +38,8 @@ def start_browser_automation():
 
     for invoice in data:
         try:
-            print(invoice['produtos'])
             automation=AutomationFactory.create_automation(
-                "product_notes",
+                TYPE_LAUNCH[invoice['tipo_lancamento']],
                 url=config("URL"),
                 username=config("USERNAMES"),
                 password=config("PASSWORD"),
