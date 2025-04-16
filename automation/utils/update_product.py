@@ -4,7 +4,7 @@ from complements.log import Logger
 from complements.toolbox import Toolbox
 from complements.fields import (
     HomeFields,
-    StockFields, 
+    StockRegisterFields, 
     ProductFields, 
     HomeMenuFields
 )
@@ -42,11 +42,11 @@ class UpdateProduct:
             logger.info("Acessando cadastro de produtos...")
             toolbox.wait_for_load_state(page, 'networkidle')
             toolbox.wait_for_timeout(page, 2000)
-            toolbox.click(page, StockFields.SIDEBAR_STOCK)
+            toolbox.click(page, StockRegisterFields.SIDEBAR_STOCK)
             toolbox.wait_for_timeout(page, 1000)
-            toolbox.click(page, StockFields.OPTION_PRODUCT_STOCK)
+            toolbox.click(page, StockRegisterFields.OPTION_PRODUCT_STOCK)
             toolbox.wait_for_timeout(page, 1000)
-            toolbox.click(page, StockFields.OPTION_REGISTER_STOCK)
+            toolbox.click(page, StockRegisterFields.OPTION_REGISTER_STOCK)
             return True
         except Exception as e:
             logger.error(f"Erro ao acessar o cadastro de produtos {e}")
@@ -59,13 +59,13 @@ class UpdateProduct:
             logger.info("Buscando o produto...")
             toolbox.wait_for_load_state(page, 'networkidle')
             toolbox.wait_for_timeout(page, 1500)
-            toolbox.click(page, StockFields.BUTTON_CLEAN)
+            toolbox.click(page, StockRegisterFields.BUTTON_CLEAN)
             toolbox.wait_for_timeout(page, 500)
-            toolbox.fill(page, StockFields.FIELD_PRODUCT, code_product)
+            toolbox.fill(page, StockRegisterFields.FIELD_PRODUCT, code_product)
             toolbox.wait_for_timeout(page, 1000)
-            toolbox.click(page, StockFields.BUTTON_SEARCH)
+            toolbox.click(page, StockRegisterFields.BUTTON_SEARCH)
             toolbox.wait_for_timeout(page, 1500)
-            toolbox.click(page, StockFields.BUTTON_EDIT)
+            toolbox.click(page, StockRegisterFields.BUTTON_EDIT)
             return True
         except Exception as e:
             logger.error(f"Erro ao buscar o produto {e}")

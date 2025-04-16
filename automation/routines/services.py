@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-from automation.automation import Automation
+from automation.base import Automation
 
 class ServiceNotesAutomation(Automation):
     def __init__(self, url, username, password, toolbox=None):

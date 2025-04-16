@@ -1,8 +1,8 @@
 from playwright.sync_api import sync_playwright
 
 from core.utils import update_invoice, update_invoice_error
-from automation.automation import Automation
-from automation.update_product import UpdateProduct
+from automation.base import Automation
+from automation.utils.update_product import UpdateProduct
 from complements.fields import (
     HomeFields, 
     HomeMenuFields, 
@@ -383,7 +383,7 @@ class ProductNotesAutomation(Automation):
         
     def execute(self):
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=False)
             page = browser.new_page()
             
             try:
