@@ -8,7 +8,6 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from automation.factory import AutomationFactory
 from core.utils import (
-    FactoryDatabaseConnection,
     connect_to_database_fourmaqconnect, 
     process_invoices, 
     process_parameters,
