@@ -1,6 +1,6 @@
 
 from database.consults.invoices import INVOICES, UPDATE_INVOICE, UPDATE_INVOICE_ERROR
-from models.invoice import Invoice
+from database.models.invoice import Invoice
 
 class InvoiceRepository:
     def __init__(self, connection):

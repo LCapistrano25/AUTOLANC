@@ -1,5 +1,5 @@
 from database.consults.parameters import PARAMETERS
-from models.parameters import StatusParameters
+from database.models.parameters import StatusParameters
 
 class ParametersRepository:
     def __init__(self, connection):

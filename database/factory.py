@@ -1,4 +1,7 @@
 
+from database.utils import connect_to_database_fourmaqconnect, connect_to_database_solution
+
+
 class FactoryDatabaseConnection:
     @staticmethod
     def select_connection(db_name):
