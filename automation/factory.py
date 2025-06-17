@@ -1,4 +1,4 @@
-from automation.routines.purchase_resale import PurchaseResaleAutomation
+from automation.routines.purchase_resale.purchase_resale import PurchaseResaleAutomation
 from automation.routines.services import ServiceNotesAutomation
 from automation.routines.transfer_notes import TransferNotesAutomation
 

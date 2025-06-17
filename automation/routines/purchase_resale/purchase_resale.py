@@ -21,7 +21,8 @@ from complements.fields import (
 )
 from complements.log import Logger
 
-class PurchaseResaleAutomation(Automation):
+    
+class PurchaseResaleAutomation(Automation): # Classe Controle
     def __init__(self, url, username, password, toolbox=None, data=None, dir_logs='logs', db=None, parameters=None):
         self.db = db
         self.parameters = parameters
