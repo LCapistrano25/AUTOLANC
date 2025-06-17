@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 from automation.helpers.navigation_helper import NavigationHelper
 from database.utils import update_invoice_status, update_invoice_attemps
 from automation.base import Automation
-from automation.routines.update_product import UpdateProduct
+from automation.handlers.update_product import UpdateProduct
 from complements.fields import (
     HomeFields,
     HomeMenuFields, 
