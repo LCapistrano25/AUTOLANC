@@ -60,7 +60,7 @@ class UpdateProduct:
             toolbox.wait_for_load_state(page, 'networkidle')
             toolbox.wait_for_timeout(page, 1500)
             toolbox.click(page, StockRegisterFields.BUTTON_CLEAN)
-            toolbox.wait_for_timeout(page, 500)
+            toolbox.wait_for_timeout(page, 1500)
             toolbox.fill(page, StockRegisterFields.FIELD_PRODUCT, code_product)
             toolbox.wait_for_timeout(page, 1000)
             toolbox.click(page, StockRegisterFields.BUTTON_SEARCH)
@@ -96,15 +96,15 @@ class UpdateProduct:
             toolbox.wait_for_load_state(page, 'networkidle')
             toolbox.wait_for_timeout(page, 2000)
             
-            for product in products:
-                logger.info(f"Processando produto {product['codigo_produto']}...")
+            for index, product in enumerate(products):
+                logger.info(f"Processando N°{len(products) - (index)} - produto {product.code}...")
                 if not UpdateProduct.validate_rotine(
                     toolbox, page, ProductFields.TITLE_PRODUCT, ProductFields.ROTINE):
                     UpdateProduct.access_stock_module(toolbox, logger, page)
                     UpdateProduct.access_register_product(toolbox,logger, page)
 
-                UpdateProduct.search_product(toolbox, logger, page, product['codigo_produto'])
-                UpdateProduct.update_product(toolbox, logger, page, product['origem'])
+                UpdateProduct.search_product(toolbox, logger, page, product.code)
+                UpdateProduct.update_product(toolbox, logger, page, product.origin)
             
             toolbox.wait_for_timeout(page, 2000)
             return True

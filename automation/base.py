@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from automation.utils.navigation_helper import NavigationHelper
+from automation.helpers.navigation_helper import NavigationHelper
 from complements.toolbox import Toolbox
 from complements.fields import LoginFields, HomeFields
 from complements.log import Logger

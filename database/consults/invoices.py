@@ -17,8 +17,7 @@ INVOICES = '''
     INNER JOIN tb_centros_custos AS CC ON CC.id = P.id_centro_de_custo
     INNER JOIN tb_politicas_pagamento AS PP ON PP.id = NT.id_politica_pagamento
     INNER JOIN tb_tipos_lancamentos AS TL ON TL.id = NT.id_tipo_lancamento
-    WHERE NT.id_status_lancamento = %s 
-    ORDER BY NT.tentativa_realizada ASC
+    WHERE NT.id_status_lancamento = %s and tentativa_realizada < 25
     LIMIT %s
 '''
 

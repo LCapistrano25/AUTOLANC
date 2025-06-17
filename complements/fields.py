@@ -14,9 +14,9 @@ class HomeFields:
     BUTTON_CONFIRM_BRANCH = '#BTNENTER'
 
 class HomeMenuFields:
-    MODULES = "#MPW0100GdmenumodulosContainerTbl"
-    MODULE_FISCAL = "#MPW0100GRID1TABLE_0008"
-    MODULE_STOCK = "#MPW0100GRID1TABLE_0006"
+    MODULES = "#MPW0106GdmenumodulosContainerDiv"
+    MODULE_FISCAL = "#MPW0106GRID1TABLE_0008"
+    MODULE_STOCK = "#MPW0106GRID1TABLE_0006"
 
 class StockRegisterFields:
     SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[4]"
@@ -102,6 +102,7 @@ class LaunchNFSe:
     BUTTON_NEXT_ITEMS_TAXES = "#W0021BTNWIZARDNEXT"
     BUTTON_CONFIRM = "#W0021W0015BTNENTER"
     ROTINE = "1020"
+    ERROR_TAXES = '//*[@id="W0021TABLEMAIN"]/div[1]/div/div/span'
 
 FILTERS_SITUATION = {
     "situation_manifested": "Todos",

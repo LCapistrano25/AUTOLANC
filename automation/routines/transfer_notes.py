@@ -1,9 +1,9 @@
 from playwright.sync_api import sync_playwright
 
-from automation.utils.navigation_helper import NavigationHelper
-from core.utils import update_invoice, update_invoice_error
+from automation.helpers.navigation_helper import NavigationHelper
+from database.utils import update_invoice_status, update_invoice_attemps
 from automation.base import Automation
-from automation.utils.update_product import UpdateProduct
+from automation.routines.update_product import UpdateProduct
 from complements.fields import (
     HomeFields,
     HomeMenuFields, 
@@ -15,7 +15,7 @@ class TransferNotesAutomation(Automation):
     def __init__(self, url, username, password, toolbox=None, data=None, dir_logs='logs', db=None, parameters=None):
         self.db = db
         self.parameters = parameters
-        self.invoice_id = data[0]['chave']
+        self.invoice_id = data.key
         self.dir_logs = dir_logs
         self.logger = Logger(self.invoice_id, log_file=f'{self.dir_logs}/{self.invoice_id}/{self.invoice_id}.log', invoice_id=self.invoice_id)
 
@@ -77,7 +77,7 @@ class TransferNotesAutomation(Automation):
     def search_invoice(self, page: object, number_invoice: str) -> None:
         """Método responsável por buscar a nota fiscal."""
         try:
-            result = update_invoice_error(self.db, self.invoice_id)
+            result = update_invoice_attemps(self.db, key=self.invoice_id)
 
             if not result:
                 raise Exception("Erro ao tentar atualizar a nota fiscal")
@@ -99,7 +99,7 @@ class TransferNotesAutomation(Automation):
     def launch_invoice(self, page: object) -> None:
         """Método responsável por lançar a nota fiscal."""
         try:
-            result = update_invoice(self.db, self.parameters['em_lancamento'], self.invoice_id)
+            result = update_invoice_status(self.db, status=self.parameters.launching, key=self.invoice_id)
             
             if not result:
                 self.logger.info(f"Nota fiscal {self.invoice_id} já lançada")
@@ -114,10 +114,10 @@ class TransferNotesAutomation(Automation):
             self.toolbox.click(page, StockInvoiceFields.BUTTON_FINISH)
             self.logger.info("Nota fiscal lançada com sucesso")
 
-            result = update_invoice(self.db, self.parameters['lancado'], self.invoice_id)
+            result = update_invoice_status(self.db, status=self.parameters.launched, key=self.invoice_id)
 
             if not result:
-                update_invoice(self.db, self.parameters['a_conferir'], self.invoice_id)
+                update_invoice_status(self.db, status=self.parameters.to_review, key=self.invoice_id)
                 raise Exception("Erro ao tentar atualizar a nota fiscal")
             
         except Exception as e:
@@ -133,21 +133,25 @@ class TransferNotesAutomation(Automation):
                 page.goto(self.url)
                 self.login(page)
 
-                for i in self.data:
-                    try:
-                        self.logger.info(f"Processando a nota fiscal {i['chave']}")
+                try:
+                    key = self.data.key
+                    branch_number = self.data.branch_number
+                    branch_name = self.data.branch_name
+                    invoice_number = self.data.invoice_number
+                    
+                    self.logger.info(f"Processando a nota fiscal {key}")
 
-                        self.select_branch(page, i['filial'], i['filial_name'])
-                        self.access_module(page)
-                        self.search_invoice(page, i['numero_nota'])
-                        self.launch_invoice(page)
-                        page.wait_for_timeout(5000)
+                    self.select_branch(page, branch_number, branch_name)
+                    self.access_module(page)
+                    self.search_invoice(page, invoice_number)
+                    self.launch_invoice(page)
+                    page.wait_for_timeout(5000)
 
-                        self.logger.info(f"Processamento da nota fiscal {i['chave']} finalizado com sucesso")
-                    except Exception as e:
-                        self.logger.error(f"Erro ao tentar processar a nota fiscal {i['chave']}: {e}")
-                        self.toolbox.screenshot(page, f"{self.dir_logs}/{self.invoice_id}/9999 - processamento_nota_fiscal.png")
-                        continue
+                    self.logger.info(f"Processamento da nota fiscal {key} finalizado com sucesso")
+                except Exception as e:
+                    self.logger.error(f"Erro ao tentar processar a nota fiscal {key}: {e}")
+                    self.toolbox.screenshot(page, f"{self.dir_logs}/{self.invoice_id}/9999 - processamento_nota_fiscal.png")
+                    return
 
                 self.logger.info("Automação finalizada com sucesso")
             except Exception as e:

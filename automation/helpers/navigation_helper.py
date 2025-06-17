@@ -1,7 +1,6 @@
 
 from complements.fields import HomeFields
 
-
 class NavigationHelper:
     def __init__(self, toolbox, logger):
         self.toolbox = toolbox
@@ -25,6 +24,7 @@ class NavigationHelper:
         """Método responsável por validar o módulo atual."""
         try:
             text = self.toolbox.inner_text(page, selector, timeout=3000).split(' - ')[-1]
+            self.logger.info(f"Da {text} para {rotine}")
             return rotine == text
         except Exception as e:
             self.logger.error(f"Erro ao validar a rotina {rotine}: {e}")

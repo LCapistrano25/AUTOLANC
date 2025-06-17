@@ -10,16 +10,16 @@ class DatabaseConnection:
         self.password = password
         self.host = host
         self.port = port
-        self.conn = None
-        self.cursor = None
+        self._conn = None
+        self._cursor = None
 
     def connect(self) -> None:
         """Estabelece conexão com o banco de dados."""
         try:
             if self.db_type == "sqlite":
-                self.conn = sqlite3.connect(self.db_name)
+                self._conn = sqlite3.connect(self.db_name)
             elif self.db_type == "postgresql":
-                self.conn = psycopg2.connect(
+                self._conn = psycopg2.connect(
                     dbname=self.db_name,
                     user=self.user,
                     password=self.password,
@@ -27,7 +27,7 @@ class DatabaseConnection:
                     port=self.port or "5432"
                 )
             elif self.db_type == "mysql":
-                self.conn = mysql.connector.connect(
+                self._conn = mysql.connector.connect(
                     database=self.db_name,
                     user=self.user,
                     password=self.password,
@@ -37,7 +37,7 @@ class DatabaseConnection:
             else:
                 raise ValueError("Banco de dados não suportado!")
 
-            self.cursor = self.conn.cursor()
+            self._cursor = self._conn.cursor()
             print(f"Conectado ao banco de dados {self.db_name} ({self.db_type})")
 
         except Exception as e:
@@ -46,11 +46,11 @@ class DatabaseConnection:
     def execute_query(self, query, params=None) -> any:
         """Executa uma consulta SQL e retorna os resultados, se houver."""
         try:
-            self.cursor.execute(query, params or ())
+            self._cursor.execute(query, params or ())
             if query.strip().lower().startswith("select"):
-                return self.cursor.fetchall()
+                return self._cursor.fetchall()
             else:
-                self.conn.commit()
+                self._conn.commit()
                 return "Query executada com sucesso!"
         except Exception as e:
             print(f"Erro ao executar a query: {e}")
@@ -58,8 +58,19 @@ class DatabaseConnection:
 
     def close(self) -> None:
         """Fecha a conexão com o banco de dados."""
-        if self.cursor:
-            self.cursor.close()
-        if self.conn:
-            self.conn.close()
+        if self._cursor:
+            self._cursor.close()
+        if self._conn:
+            self._conn.close()
             print("Conexão fechada.")
+
+    def get_cursor(self):
+        if self._conn:
+            return self._conn.cursor()
+        raise RuntimeError("Conexão não iniciada.")
+    
+    def commit(self):
+        if self._conn:
+            self._conn.commit()
+        else:
+            raise RuntimeError("Conexão não inicializada.")
