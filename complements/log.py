@@ -1,9 +1,35 @@
 import logging
 import os
 from rich.logging import RichHandler
+from abc import ABC, abstractmethod
 
-class Logger:
-    _loggers = {} 
+class AbstractLogger(ABC):
+    """
+    Classe abstrata para o logger
+    Esta classe define a interface para operações de logging.
+    """
+    @abstractmethod
+    def debug(self, message):
+        pass
+
+    @abstractmethod
+    def info(self, message):
+        pass
+
+    @abstractmethod
+    def warning(self, message):
+        pass
+
+    @abstractmethod
+    def error(self, message):
+        pass
+
+    @abstractmethod
+    def critical(self, message):
+        pass
+    
+class Logger(AbstractLogger):
+    _loggers = {}
 
     def __init__(self, name, log_file=None, invoice_id=None):
         """Cria um logger separado para cada processo"""

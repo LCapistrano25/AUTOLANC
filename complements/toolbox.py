@@ -1,14 +1,85 @@
-class Toolbox:
+from abc import ABC, abstractmethod
+
+class AbstractToolbox(ABC):
+    """
+    Abstract class for toolbox
+    This class defines the interface for toolbox operations.
+    """
+    @abstractmethod
+    def fill(self, page: object, selector: str, text: str):
+        pass
+
+    @abstractmethod
+    def click(self, page: object, selector: str, is_required: bool = True, timeout: int = 30000):
+        pass
+
+    @abstractmethod
+    def inner_text(self, page: object, selector: str, timeout: int = 30000):
+        pass
+
+    @abstractmethod
+    def select_option(self, page: object, selector: str, text: str):
+        pass
+
+    @abstractmethod
+    def enter(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def wait_for_selector(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def wait_for_load_state(self, page: object, state: str):
+        pass
+
+    @abstractmethod
+    def wait_for_timeout(self, page: object, time: int):
+        pass
+
+    @abstractmethod
+    def obtain_frame(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def frame_locator(self, iframe: object, selector: str, text: str):
+        pass
+
+    @abstractmethod
+    def frame_click(self, iframe: object, selector: str):
+        pass
+
+    @abstractmethod
+    def frame_check(self, iframe: object, selector: str, force: bool = False):
+        pass
+
+    @abstractmethod
+    def check(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def uncheck(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def is_checked(self, page: object, selector: str):
+        pass
+
+    @abstractmethod
+    def screenshot(self, page: object, path: str):
+        pass
+        
+class Toolbox(AbstractToolbox):
+    """
+    Toolbox for automation operations.
+    This class provides methods for interacting with web pages, such as filling forms, clicking elements,
+    selecting options, and taking screenshots.
+    """
     
     @staticmethod
     def fill(page: object, selector: str, text: str):
         page.wait_for_selector(selector, state='visible')
         page.fill(selector, text)
-
-    @staticmethod
-    def type(page: object, selector: str, text: str, delay: int = 500):
-        page.wait_for_selector(selector, state='visible')
-        page.type(selector, text, delay=delay)
 
     @staticmethod
     def click(page: object, selector: str, is_required: bool = True, timeout: int = 30000):

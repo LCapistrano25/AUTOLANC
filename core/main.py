@@ -71,7 +71,7 @@ def start_browser_automation():
             threads.append(thread)
             thread.start()
         except Exception as e:
-            print(f"Erro ao iniciar automação para a nota {invoice['chave']}: {e}")
+            print(f"Erro ao iniciar automação para a nota {invoice.key}: {e}")
 
     for thread in threads:
         thread.join()

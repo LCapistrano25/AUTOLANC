@@ -14,9 +14,9 @@ class HomeFields:
     BUTTON_CONFIRM_BRANCH = '#BTNENTER'
 
 class HomeMenuFields:
-    MODULES = "#MPW0106GdmenumodulosContainerDiv"
-    MODULE_FISCAL = "#MPW0106GRID1TABLE_0008"
-    MODULE_STOCK = "#MPW0106GRID1TABLE_0006"
+    MODULES = "#MPW0100GdmenumodulosContainerDiv"
+    MODULE_FISCAL = "#MPW0100GRID1TABLE_0008"
+    MODULE_STOCK = "#MPW0100GRID1TABLE_0006"
 
 class StockRegisterFields:
     SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[4]"

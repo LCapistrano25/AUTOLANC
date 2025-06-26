@@ -78,23 +78,27 @@ def update_invoice_attemps(db, *args, **kwargs):
 
 def origin_diverget(db, access_key):
     """Responsável por verificar a divergência de origem."""
-    items_fourmaqconnect = get_items_fourmaqconnect(db, access_key=access_key)
-    
-    db_solution = connect_to_database_solution()
-    divergent = []
-    for item in items_fourmaqconnect:
-        code = item.code
-        origin = item.origin
-
-        items_solution = get_items_solution(db_solution, code_product=code)
+    try:
+        items_fourmaqconnect = get_items_fourmaqconnect(db, access_key=access_key)
         
-        if not items_solution:
-            continue
-        
-        if origin != items_solution.origin:
-            divergent.append(item)
+        db_solution = connect_to_database_solution()
+        divergent = []
+        for item in items_fourmaqconnect:
+            code = item.code
+            origin = item.origin
 
-    return divergent
+            items_solution = get_items_solution(db_solution, code_product=code)
+            
+            if not items_solution:
+                continue
+            
+            if origin != items_solution.origin:
+                divergent.append(item)
+
+        return divergent
+    except Exception as e:
+        print(f"Erro ao tentar verificar a divergência de origem: {e}")
+        return []
 
 def connect_to_database_fourmaqconnect():
     """Responsável por conectar ao banco de dados."""

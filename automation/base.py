@@ -1,18 +1,16 @@
 from abc import ABC, abstractmethod
 
-from automation.helpers.navigation_helper import NavigationHelper
-from complements.toolbox import Toolbox
 from complements.fields import LoginFields, HomeFields
-from complements.log import Logger
+from automation.context import Context
 
 class Automation(ABC):
-    def __init__(self, url: str, username: str, password: str, toolbox: object = None, data: list[dict] = None, logger: Logger = None) -> None:
+    def __init__(self, url: str, username: str, password: str, context: Context) -> None:
         self.url = url
         self.username = username
         self.password = password
-        self.toolbox = toolbox or Toolbox()
-        self.data = data or []
-        self.logger = logger
+        self.context = context
+        self.toolbox = context.toolbox
+        self.logger = context.logger
 
     @abstractmethod
     def login(self, page: object) -> None:
