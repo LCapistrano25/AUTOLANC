@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 
+from automation.context import Context
 from automation.handlers.navigation_helper import NavigationHelper
 from database.utils import update_invoice_status, update_invoice_attemps
 from automation.base import Automation
@@ -12,15 +13,17 @@ from complements.fields import (
 from complements.log import Logger
 
 class TransferNotesAutomation(Automation):
-    def __init__(self, url, username, password, toolbox=None, data=None, dir_logs='logs', db=None, parameters=None):
-        self.db = db
-        self.parameters = parameters
-        self.invoice_id = data.key
-        self.dir_logs = dir_logs
+    def __init__(self, url, username, password, context: Context):
+        self.context = context
+        self.db = context.db
+        self.data = context.data
+        self.parameters = context.parameters
+        self.invoice_id = context.data.key
+        self.dir_logs = context.dir_logs
         self.logger = Logger(self.invoice_id, log_file=f'{self.dir_logs}/{self.invoice_id}/{self.invoice_id}.log', invoice_id=self.invoice_id)
 
-        super().__init__(url, username, password, toolbox, data, self.logger)
-        
+        super().__init__(url, username, password, self.context)
+
         self.navigator = NavigationHelper(toolbox=self.toolbox, logger=self.logger)
 
     def login(self, page):
@@ -159,3 +162,19 @@ class TransferNotesAutomation(Automation):
                 self.close(browser)
             finally:
                 self.close(browser)
+
+    def __str__(self):
+        line_sep = '-' * (len(self.url) // 2)
+        return f"""
+        {line_sep} Transfer Notes Automation {line_sep}
+        | URL: {self.url}
+        | Chave: {self.invoice_id}
+        | Filial: {self.data.branch_name}
+        | Operação: {self.data.operation}
+        | Checagem: {self.data.checker}
+        | Vendedor: {self.data.seller}
+        | Centro de Custo: {self.data.center}
+        | Política de Pagamento: {self.data.policy}
+        | Produtos para atualização: {len(self.data.products)}
+        {line_sep} End Transfer Notes Automation {line_sep}
+        """

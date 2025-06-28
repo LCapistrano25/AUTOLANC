@@ -28,8 +28,8 @@ class StockRegisterFields:
     BUTTON_EDIT = "#vEDITAR_0001"
 
 class StockInvoiceFields:
-    SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[3]/a"
-    OPTION_IMPORT_INVOICE_BRANCH = "//*[@id='cssmenu']/ul/li[3]/ul/li[3]/a"
+    SIDEBAR_STOCK = "//*[@id='cssmenu']/ul/li[2]/a"
+    OPTION_IMPORT_INVOICE_BRANCH = "//*[@id='cssmenu']/ul/li[2]/ul/li[3]/a"
     DROPDOWN_ORIGIN = "//*[@id='W0021vE35FILIAL']"
     DROPDOWN_DESTINATION = "//*[@id='W0021vE62FILDEST']"
     BUTTON_SEARCH = "//*[@id='W0021IMGPESQUISA']"
