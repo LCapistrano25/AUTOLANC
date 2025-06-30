@@ -34,11 +34,11 @@ class ManifestProductInvoice:
     def manifest_invoice(self, page: object) -> bool:
         """Método responsável por manifestar a nota fiscal."""	
         try:
-            if not self.verify_parameters(page):
+            if not self.validator.verify_parameters(page):
                 self.logger.info("Nota fiscal não está apta para manifestação")
                 return False
             
-            if self.verify_invoice(page):  
+            if self.validator.verify_invoice(page):  
                 self.logger.info("Nota fiscal já manifestada")
                 return True
             
@@ -75,7 +75,7 @@ class ManifestProductInvoice:
             except Exception as e:
                 self.logger.error(f"Não identificado POPUP de confirmação: {e}")
             
-            if not self.verify_situation_manifested(page):
+            if not self.validator.verify_situation_manifested(page):
                 self.logger.info("Nota fiscal não está com a situação manifestada 'Confirmada Operação'")
                 return False
             

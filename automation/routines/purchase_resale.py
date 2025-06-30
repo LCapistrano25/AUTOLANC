@@ -92,7 +92,7 @@ class PurchaseResaleManifestation:
     def _already_manifested(self):
         """Método responsável por verificar se a nota fiscal já foi manifestada."""
         situation = self.toolbox.inner_text(self.page, FiscalFields.TEXT_SITUATION_MANIFESTED)
-        return situation.lower() not in SITUATION_APPROVED['situation_manifested_not_approved'].lower()
+        return situation.lower() not in [s.lower() for s in SITUATION_APPROVED['situation_manifested_not_approved']]
     
     def _is_checked(self):
         """Método responsável por verificar se a nota fiscal está selecionada."""
@@ -264,7 +264,7 @@ class PurchaseResaleLauncher:
             self.toolbox.wait_for_selector(self.page, LaunchNFSe.TAB_TAXES)
             self.toolbox.wait_for_timeout(self.page, 1000)
 
-            if not self._verify_error(self.page):
+            if not self._verify_error():
                 raise Exception("Erro encontrado na tela")
 
             self.toolbox.screenshot(self.page, f"{self.dir_logs}/{self.invoice_id}/6 - verificando_impostos.png")
@@ -449,6 +449,9 @@ class PurchaseResaleAutomation(Automation):
                     )
                 
                     self.logger.info(f"Processamento da nota fiscal {key} finalizado com sucesso")
+
+                    self.toolbox.wait_for_timeout(page, 3000)
+
                 except Exception as e:
                     self.logger.error(f"Erro ao tentar processar a nota fiscal {key}: {e}")
                     self.toolbox.screenshot(page, f"{self.dir_logs}/{self.invoice_id}/9999 - processamento_nota_fiscal.png")
