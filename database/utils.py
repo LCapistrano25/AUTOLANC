@@ -134,4 +134,4 @@ def connect_to_database_solution():
     except Exception as e:
         print(f"Erro ao tentar conectar ao banco de dados da solução: {e}")
         return None
-    
+

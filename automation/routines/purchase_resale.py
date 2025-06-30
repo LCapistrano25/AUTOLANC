@@ -409,7 +409,7 @@ class PurchaseResaleAutomation(Automation):
     def execute(self):
         """Método responsável por executar a automação de compra e revenda de notas fiscais."""
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
+            browser = p.chromium.launch(headless=True)
             page = browser.new_page()
             
             try:

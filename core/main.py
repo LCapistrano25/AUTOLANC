@@ -30,7 +30,9 @@ def start_browser_automation():
     """Inicia a automação de notas fiscais."""
     db = FactoryDatabaseConnection.select_connection(db_name='fourmaqconnect')
     parameters = get_parameters(db)
+    print(f"Parâmetros atuais: {parameters.not_launched}")
     invoices = get_invoices(db, lauch_status=parameters.not_launched, limit=config("LIMIT"))
+    
 
     if not invoices:
         print("Nenhuma nota fiscal encontrada.")
