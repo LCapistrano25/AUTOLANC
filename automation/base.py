@@ -20,9 +20,10 @@ class Automation(ABC):
             self.toolbox.fill(page, LoginFields.FIELD_LOGIN_PASSWORD, self.password)
             self.toolbox.click(page, LoginFields.BUTTON_LOGIN)
             try:
-               page.click(LoginFields.BUTTON_CLOSE_POPUP, timeout=5000)
+                self.toolbox.wait_for_selector(page, LoginFields.BUTTON_CLOSE_POPUP)
+                page.click(LoginFields.BUTTON_CLOSE_POPUP, timeout=5000)
             except Exception as ex:
-                    self.logger.warning('Popup de confimação não encontrado')
+                self.logger.warning('Popup de confirmação não encontrado')
 
             self.logger.info("OK - Login realizado com sucesso")
         except Exception as e:

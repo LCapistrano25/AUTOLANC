@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright
-
+from decouple import config
 from automation.context import Context
 from automation.handlers.navigation_helper import NavigationHelper
 from database.utils import update_invoice_status, update_invoice_attemps
@@ -129,7 +129,7 @@ class TransferNotesAutomation(Automation):
         
     def execute(self):
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=config('HEADLESS', default=True , cast=bool))
             page = browser.new_page()
             
             try:

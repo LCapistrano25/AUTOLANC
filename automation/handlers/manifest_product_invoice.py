@@ -103,4 +103,4 @@ class ManifestProductInvoice:
             return True
         except Exception as e:
             self.logger.error(f"Erro ao tentar confirmar a manifestação da nota fiscal: {e}")
-            return False
+            return True

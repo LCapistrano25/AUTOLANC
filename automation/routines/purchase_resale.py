@@ -10,6 +10,8 @@ from automation.base import Automation
 from automation.helpers.update_product import UpdateProduct
 from automation.validators.purchase_resale_validator import PurchaseResaleValidator
 
+from decouple import config
+
 from complements.fields import (
     HomeFields, 
     HomeMenuFields, 
@@ -118,7 +120,12 @@ class PurchaseResaleManifestation:
 
         try:
             self.toolbox.wait_for_timeout(self.page, 3000)
-            self.toolbox.wait_for_selector(self.page, ManualSelectionPopupFields.POPUP_CONFIRM_OPERATION)
+            try:
+                self.toolbox.wait_for_selector(self.page, ManualSelectionPopupFields.POPUP_CONFIRM_OPERATION)
+            except Exception as e:
+                self.logger.warning("Popup de confirmação não encontrado")
+                return True
+
             self.toolbox.click(self.page, ManualSelectionPopupFields.BUTTON_UPDATE_SITUATION)
             self.toolbox.wait_for_timeout(self.page, 2000)
             self.toolbox.wait_for_selector(self.page, SelectEventPopupFields.POPUP_CONFIRM_EVENT)
@@ -409,7 +416,7 @@ class PurchaseResaleAutomation(Automation):
     def execute(self):
         """Método responsável por executar a automação de compra e revenda de notas fiscais."""
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
+            browser = p.chromium.launch(headless=config('HEADLESS', default=True , cast=bool))
             page = browser.new_page()
             
             try:
